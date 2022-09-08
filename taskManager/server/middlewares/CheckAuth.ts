@@ -17,7 +17,7 @@ export const checkAuth = async (req: Request, res: Response, next: NextFunction)
 
         const tokenData = await tokenService.validateToken(authorizationToken, tokenKey);
 
-        tokenData.userId = req.body;
+        req.headers.ownerId = tokenData.userId || "string";
         next();
     } catch(err) {
         next(ApiError.unauthorized());

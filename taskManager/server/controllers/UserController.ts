@@ -66,14 +66,6 @@ class UserController {
             next(err);
         }
     }
-
-    async getTasks(req: Request, res: Response, next: NextFunction) {
-        try {
-            res.json({"tasks": "tasks"});
-        } catch(err) {
-            next(err);
-        }
-    }
 }
 
 export const userController = new UserController();
