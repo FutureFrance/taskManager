@@ -36,8 +36,12 @@ class UserController {
             const { email, password } = req.body;
 
             const loginInfo = await userService.login(email, password);
-
-            res.cookie('refreshToken', loginInfo.refreshToken, {maxAge: 24 * 60 * 60 * 1000, httpOnly: true});
+            
+            res.cookie('refreshToken', loginInfo.refreshToken, {
+                expires: new Date(Date.now() + (3600 * 1000 * 24 * 180 * 1)), //second min hour days year
+                httpOnly: true, // backend only
+                sameSite: 'lax'
+            });
 
             res.status(200).json({loginInfo});
         } catch(err) {
@@ -59,9 +63,14 @@ class UserController {
             const key = process.env.JWT_REFRESH_KEY || "";
 
             const tokens = await userService.refresh(refreshToken, key);
-            res.cookie('refreshToken', tokens.refreshToken, {maxAge: 24 * 60 * 60 * 1000, httpOnly: true});
 
-            res.status(200).json({tokens});
+            res.cookie('refreshToken', tokens.refreshToken, {
+                expires: new Date(Date.now() + (3600 * 1000 * 24 * 180 * 1)), 
+                httpOnly: true,
+                sameSite: 'lax'
+            });
+            
+            res.status(200).json({accessToken: tokens.accessToken});
         } catch(err) {
             next(err);
         }

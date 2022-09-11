@@ -1,24 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
-import { IncomingHttpHeaders } from 'http';
+import { ISpot, IReqCustom, CustomHeaders } from '../interfaces/RequestInterfaces';
 import { ObjectId } from 'mongodb';
 import { validationResult } from 'express-validator';
 import { ApiError } from '../exceptions/ApiErrors';
 import { taskService } from '../services/TaskService';
-
-interface ISpot {
-    taskContent?: string,
-    isCompleted?: boolean,
-    taskId?: string
-}
-
-interface CustomHeaders {
-    ownerId?: string
-}
-
-interface IReqCustom<TBody, THeader> extends Request {
-    body: TBody,
-    headers: IncomingHttpHeaders & THeader
-}
 
 class TaskControllers {
     async createTask(req: IReqCustom<ISpot, CustomHeaders>, res: Response, next: NextFunction) {
@@ -84,12 +69,18 @@ class TaskControllers {
         try {
             const { ownerId } = req.headers;
             const ownerID = new ObjectId(ownerId);
+            console.log("OWNERID:  ", ownerID)
             const tasks = await taskService.getTasks(ownerID);
 
-            res.status(500).json({tasks}); 
+            res.status(200).json({tasks}); 
         } catch(err) {
+            console.log(err);
             next(err);
         }
+    }
+
+    nothing(req: Request, res: Response) {
+        res.status(200).json({});
     }
 }
 

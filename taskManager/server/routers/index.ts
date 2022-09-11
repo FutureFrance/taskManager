@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Router, Response } from "express";
 import { userController } from '../controllers/UserController';
 import { taskController } from '../controllers/TaskController';
 import { checkAuth } from '../middlewares/CheckAuth';
@@ -14,6 +14,7 @@ router.get("/refreshToken", userController.refresh);
 router.post("/createTask", checkAuth, taskValidate.createTask, taskController.createTask);
 router.post("/modifyTask", checkAuth, taskValidate.modifyTask, taskController.modifyTask);
 router.post("/deleteTask", checkAuth, taskController.deleteTask);
-router.get("/getTasks", checkAuth, taskController.getTasks);
+router.get("/home", checkAuth, taskController.getTasks);
+router.get("/auth", checkAuth, taskController.nothing); 
 
 export default router;

@@ -2,8 +2,7 @@ import bcrypt from 'bcrypt';
 import UserModel from '../models/UserModel';
 import { tokenService } from '../services/TokenService';
 import { ApiError } from '../exceptions/ApiErrors';
-import { Tokens } from '../services/TokenService';
-import TokenModel from '../models/TokenModel';
+import { Tokens } from '../interfaces/TokenInterfaces';
 
 class UserService {
     async registration(email: string, password: string, repeatPass: string): Promise<Object> {
@@ -52,9 +51,10 @@ class UserService {
 
     async refresh(refreshToken: string, key: string) {
         try {
+            //console.log(`Refresh token:  ${refreshToken}`)
             const valid = await tokenService.validateToken(refreshToken, key);
             const findFromDB = await tokenService.findToken(refreshToken);
-
+            //console.log(`valid: ${valid}\n findFromDB: ${findFromDB}`)
             if (!valid || !findFromDB) {
                 throw ApiError.unauthorized();
             } 

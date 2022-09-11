@@ -2,12 +2,6 @@ import { ObjectId } from "mongodb";
 import { ApiError } from '../exceptions/ApiErrors';
 import TaskModel from '../models/TaskModel'
 
-interface ITask {
-    taskContent: string,
-    ownerId: Object,
-    isCompleted: boolean
-}
-
 class TaskService {
     async createTask(taskContent: string = "", ownerId: string = "") {
         const task = await TaskModel.create({

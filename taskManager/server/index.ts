@@ -15,7 +15,10 @@ const app = express();
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors());
+app.use(cors({
+    origin: "http://127.0.0.1:5500",
+    credentials: true,  
+}));
 app.use("/api", router);
 app.use(errorHandler);
 

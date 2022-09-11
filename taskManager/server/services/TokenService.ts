@@ -1,18 +1,10 @@
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import { Tokens, tokenData } from '../interfaces/TokenInterfaces';
 import TokenModel from '../models/TokenModel';
 import { ApiError } from '../exceptions/ApiErrors';
 
 dotenv.config()
-
-export interface Tokens {
-    refreshToken: string,
-    accessToken: string
-}
-
-export interface tokenData {
-    userId: string;
-}
 
 export class TokenService {
     async generateTokens(payload: Object): Promise<Tokens> {
@@ -28,7 +20,7 @@ export class TokenService {
         } as Tokens);
     }
 
-    async validateToken(token:string, key: string) {
+    async validateToken(token: string, key: string) {
         try {
             const valid = jwt.verify(token, key);
 
