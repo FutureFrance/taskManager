@@ -43,11 +43,11 @@ function renderData() {
 }
 
 function modifyTask() {
-    const taskContent = document.getElementById("taskContent").value;
+    let taskContent = document.getElementById("taskContent").value;
     const isCompleted = document.getElementById("isCompleted").checked;
 
     if (taskContent === "" ) {
-        return alert("task content is empty please fill the field")
+        taskContent = localStorage.getItem("taskContent");
     }
     console.log(taskContent, taskId, isCompleted)
     $.ajax({

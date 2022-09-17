@@ -38,7 +38,7 @@ function renderData(data) {
         `<tr id="${data[i]._id}" class="tabelRow">
             <td class="tabelCell" ${taskDone}>${data[i].taskContent}</td>
             <td> 
-                <button class="modifyButton">
+                <button onclick="setTaskContent('${data[i].taskContent}')" class="modifyButton">
                     <a class="modifyLink" href="http://127.0.0.1:5500/editTask.html?taskId=${data[i]._id}">Modify</a>
                 </button>
                 <button class="deleteTask" onclick="deleteTask('${data[i]._id}')">Delete</button>
@@ -46,6 +46,10 @@ function renderData(data) {
         </tr>`
         taskDone = ""
     }
+}
+
+function setTaskContent(taskContent) {
+    localStorage.setItem("taskContent", taskContent);
 }
 
 function verifyAuth() {
